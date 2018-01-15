@@ -47,6 +47,10 @@ class FahrzeugTerminePlugin extends Gdn_Plugin {
                   checkPermission('Plugins.FahrzeugTermine.Freigabe')
               )
         ) {
+            $sender->setData(
+                'FahrzeugTermineModel',
+                new FahrzeugTermineModel()
+            );
             $sender->clearCssFiles();
             $sender->addCssFile('style.css');
             $sender->addCSSFile('fz.css', 'plugins/FahrzeugTermine');
@@ -102,8 +106,25 @@ class FahrzeugTerminePlugin extends Gdn_Plugin {
             ->column('Titel', 'varchar(140)')
             ->column('Von', 'datetime')
             ->column('Bis', 'datetime')
-            ->column('Verantwortlich', 'varchar(140)')
+            ->column('VerantwortlichUserID', 'int(11)')
             ->column('Freischaltung', 'varchar(140)')
             ->set();
+    }
+
+    public function controller_delete($sender, $args) {
+        if (!Gdn::session()->validateTransientKey(Gdn::request()->get('tk'))) {
+            throw permissionException();
+        }
+        $terminID = Gdn::request()->get('termin');
+        $this->canDelete($terminID);
+        $model = new FahrzeugTermineModel();
+        $model->deleteID(Gdn::request()->get('tk'));
+    }
+
+    public function canDelete($terminID, $userID = null) {
+        if (!$userID) {
+            $userID = Gdn::session()->UserID;
+        }
+        
     }
 }

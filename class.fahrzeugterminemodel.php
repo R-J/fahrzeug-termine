@@ -1,144 +1,111 @@
-<?php if(!defined('APPLICATION')) exit();
+<?php
 
 class FahrzeugTermineModel extends Gdn_Model{
-	 /**
+
+    public function __construct() {
+        parent::__construct('FahrzeugTermin');
+    }
+
+     /**
      * Get all appointments from database table.
      *
-	 * @param Limit limits the number of results
-	 * @param Offset
-	 * @param SortOrder change the order of the result, Allowed options are:
-	 *													asc.
-	 *													dsc.
-	 *
+     * @param Limit limits the number of results
+     * @param Offset
+     * @param SortOrder change the order of the result, Allowed options are:
+     *                                                    asc.
+     *                                                    dsc.
+     *
      * @return array appointments.
      */
-	public function GetFahrzeugTermine($Limit, $Offset, $SortOrder){
-		$SQL = Gdn::SQL();
-     $FahrzeugTermineModel = new Gdn_Model('FahrzeugTermin');
-        $SQL = $FahrzeugTermineModel->SQL
-        ->Select('*')
-        ->From('FahrzeugTermin u');
-       return $SQL->Limit($Limit, $Offset)->Get();;
-	}
-	 /**
+    public function getFahrzeugTermine($Limit, $Offset, $SortOrder){
+        // Das Model bietet die  Standard-Funktion get() an.
+        // Dein Model muss das nicht nochmal implementieren
+    }
+     /**
      * Counts all appointments in database table.
      *
      * @return int.
      */
-	public function GetFahrzeugCount(){
-		$result = Gdn::SQL()
-        ->Select('*')
-        ->From('FahrzeugTermin')
-		->get()
-		->count();
-       return $result;
+    public function GetFahrzeugCount() {
+        // class.model.php hat auch schon eine getCount Methode
     }
-	 /**
+     /**
      * Check if the user can delete appointments, returns true or false.
-	 * Users are always allowed to delete their own.
+     * Users are always allowed to delete their own.
      *
      * @return bool.
      */
-	public function canDelete($Termin){
-	$session = Gdn::session();
-        if ($session->checkPermission('Plugins.FahrzeugTermine.Delete') || $Termin->UserID == $session->UserID) {
-			// User can delete appointment
+    public function canDelete($termin){
+        // Ein termin hat keine UserID...
+        $session = Gdn::session();
+        if ($session->checkPermission('Plugins.FahrzeugTermine.Delete') || $termin->UserID == $session->UserID) {
+            // User can delete appointment
             return true;
         }
-	else
-	return false;
-	}
-	/**
+    else
+    return false;
+    }
+    /**
      * Check if the user can approve appointments, returns true or false.
-	 *
-     * @return bool.
-     */
-	public function canApprove(){
-	$session = Gdn::session();
-        if ($session->checkPermission('Plugins.FahrzeugTermine.Freigabe')){
-			// User can approve appointment
-            return true;
-        }
-	else
-	return false;
-	}
-	/**
-     * Check if the user can edit appointments, returns true or false.
-	 * Users are always allowed to edit their own, except the appointment is already approved.
      *
      * @return bool.
      */
-	public function canEdit($Termin){
-	$session = Gdn::session();
-        if ($session->checkPermission('Plugins.FahrzeugTermine.Edit') || $Termin->UserID == $session->UserID and $Termin->Freischaltung == 0){
-			// User can edit appointment
+    public function canApprove(){
+    $session = Gdn::session();
+        if ($session->checkPermission('Plugins.FahrzeugTermine.Freigabe')){
+            // User can approve appointment
             return true;
         }
-	else
-	return false;
-	}
-	/**
+    else
+    return false;
+    }
+    /**
+     * Check if the user can edit appointments, returns true or false.
+     * Users are always allowed to edit their own, except the appointment is already approved.
+     *
+     * @return bool.
+     */
+    public function canEdit($Termin){
+    $session = Gdn::session();
+        if ($session->checkPermission('Plugins.FahrzeugTermine.Edit') || $Termin->UserID == $session->UserID and $Termin->Freischaltung == 0){
+            // User can edit appointment
+            return true;
+        }
+    else
+    return false;
+    }
+    /**
      * Check if the user can add appointments, returns true or false.
      *
      * @return bool.
      */
-	public function canAdd(){
-	$session = Gdn::session();
-		
+    public function canAdd(){
+    $session = Gdn::session();
+        
         if ($session->checkPermission('Plugins.FahrzeugTermine.Add')) {
-			// User can add appointment
+            // User can add appointment
             return true;
         }
-	else
-	return false;
-	}
-	/**
+    else
+    return false;
+    }
+    /**
      * ToDo, tryed to delete a appointment via id.
      *
      * @return void.
      */
-	public function deleteID($TerminID, $Options = array()) {
-	    if (!Gdn::session()->validateTransientKey($transientKey)) {
-        throw permissionException();
-    }
+    public function deleteID($terminID, $options = array()) {
         // Get appointment
-        $Termin = $this->getID($TerminID);
-        if ($TerminID) {
+        $termin = $this->getID($terminID);
+        if ($termin) {
             // Log
             $Log = val('Log', $Options);
             if ($Log) {
                 LogModel::insert($Log, 'Termin', $Termin);
             }
-            // Delete appointment from database
-           $this->SQL->delete('FahrzeugTermin', array('FahrzeugTerminID' => val('FahrzeugTerminID', $options, 0)));
+            parent::deleteID($terminID, $options)
         }
     }
-	 /** by R_J
-     * Delete entry from the table.
-     *
-     * 
-     *
-     * @param SettingsController $sender Instance of the calling class.
-     * @param array $options Allowed options are
-     *                       PrimaryKeyValue: The appointment ID.
-     *
-     * @return void.
-     */
-	public function delete($sender, $options) {
-    // Check for valid TransientKey before deleting.
-    if (Gdn::session()->validateTransientKey($sender->Request->get('tk'))) {
-		/* Logging
-		$Termin = $this->getID($TerminID);
-		$Log = val('Log', $Options);
-            if ($Log) {
-                LogModel::insert($Log, 'Termin', $Termin);
-            }
-		*/
-		Gdn::sql()->delete('FahrzeugTermin', array('FahrzeugTerminID' => val('FahrzeugTerminID', $options, 0)));
-		$Sender->InformMessage('Termin gelöscht!');
-        redirect($this->indexLink);
-			}
-     }
 }
 
 

@@ -1,4 +1,6 @@
 <?php if(!defined('APPLICATION')) die();
+$model= $this->data('FahrzeugTermineModel');
+
  $Session = Gdn::Session();
 
  if (!((CheckPermission('Plugins.FahrzeugTermine.View'))or (CheckPermission('Plugins.FahrzeugTermine.Freigabe')))) 
@@ -36,8 +38,16 @@
     $Offset = $Sender->Offset;
   
 
-   $this->FahrzeugTermine = FahrzeugTermineModel::GetFahrzeugTermine($Limit, $Offset,$SortOrder);
-   $MemNumRows = FahrzeugTermineModel::GetFahrzeugCount();
+   // $this->FahrzeugTermine = FahrzeugTermineModel::GetFahrzeugTermine($Limit, $Offset,$SortOrder);
+    // Das muss aber eigentlich im Controller abgefragt werden und dann an den View übergeben werden
+    $this->FahrzeugTermine = $model->get(
+        'Bis',
+        $SortOrder,
+        $Limit,
+        $Page
+    );
+
+   $MemNumRows = $model->getCount();
    $mydata = $this->FahrzeugTermine;
         $PagerFactory = new Gdn_PagerFactory();
         $Sender->Pager = $PagerFactory->GetPager('Pager', $this);
