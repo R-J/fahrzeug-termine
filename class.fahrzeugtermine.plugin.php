@@ -1,14 +1,5 @@
-<?php if(!defined('APPLICATION')) die();
+<?php
 
-$PluginInfo['FahrzeugTermine'] = array(
-	'Version' => '0.1',
-	'Name' => 'Fahrzeug Termine',
-	'Description' => '',
-	/*'SettingsUrl' => '/dashboard/settings/FahrzeugTermine',*/
-	'RegisterPermissions' => array('Plugins.FahrzeugTermine.Freigabe','Plugins.FahrzeugTermine.View','Plugins.FahrzeugTermine.Delete','Plugins.FahrzeugTermine.Edit','Plugins.FahrzeugTermine.Add'),
-	'License'=>"GNU GPL2",
-    'Author' => "Tim Knigge, FFRBG" 
-);
 class FahrzeugTerminePlugin extends Gdn_Plugin {
 
     public function Base_Render_Before($Sender) {

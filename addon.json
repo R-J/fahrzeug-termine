@@ -1,0 +1,24 @@
+{
+    "name": "Fahrzeug-Termine",
+    "description": "Plugin um Ressourcen (Fahrzeuge) zu reservieren.",
+    "version": "0.1.0",
+    "hasLocale": true,
+    "registerPermissions": [
+        "Plugins.FahrzeugTermine.Freigabe",
+        "Plugins.FahrzeugTermine.View",
+        "Plugins.FahrzeugTermine.Delete",
+        "Plugins.FahrzeugTermine.Edit",
+        "Plugins.FahrzeugTermine.Add"
+    ],
+    "license": "GNU GPL v2",
+    "key": "fahrzeugtermine",
+    "type": "addon",
+    "authors": [
+        {
+            "name": "Tim Knigge, FFRBG"
+        }
+    ],
+    "require": {
+        "vanilla": ">=2.5"
+    }
+}
