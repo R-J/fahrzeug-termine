@@ -1,0 +1,37 @@
+.Alt {
+    background-color:#ddd;
+
+    }
+ 
+td {
+    padding: 4px;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+ th  {
+    padding:4px;
+    border: 1px solid #ccc;
+    color: black;
+    font-size: 110%;
+
+    }
+.Info{
+		text-align:left;
+}
+#Table {
+	width:100%;
+    border:1px solid #ccc;
+		overflow-y:hidden;
+	overflow-x:scroll;
+    }
+	
+.ContentColumn, #Body .ContentColumn{
+	margin:0 !important;
+}
+dd{
+	display:none;
+	
+}
