@@ -14,10 +14,10 @@ class FahrzeugTermineModel extends Gdn_Model{
      */
 	public function GetFahrzeugTermine($Limit, $Offset, $SortOrder){
 		$SQL = Gdn::SQL();
-     $FahrzeugTermineModel = new Gdn_Model('FahrzeugTermine');
+     $FahrzeugTermineModel = new Gdn_Model('FahrzeugTermin');
         $SQL = $FahrzeugTermineModel->SQL
         ->Select('*')
-        ->From('FahrzeugTermine u');
+        ->From('FahrzeugTermin u');
        return $SQL->Limit($Limit, $Offset)->Get();;
 	}
 	 /**
@@ -28,7 +28,7 @@ class FahrzeugTermineModel extends Gdn_Model{
 	public function GetFahrzeugCount(){
 		$result = Gdn::SQL()
         ->Select('*')
-        ->From('FahrzeugTermine')
+        ->From('FahrzeugTermin')
 		->get()
 		->count();
        return $result;
@@ -110,7 +110,7 @@ class FahrzeugTermineModel extends Gdn_Model{
                 LogModel::insert($Log, 'Termin', $Termin);
             }
             // Delete appointment from database
-           $this->SQL->delete('FahrzeugTermine', array('TerminID' => val('TerminID', $options, 0)));
+           $this->SQL->delete('FahrzeugTermin', array('FahrzeugTerminID' => val('FahrzeugTerminID', $options, 0)));
         }
     }
 	 /** by R_J
@@ -134,7 +134,7 @@ class FahrzeugTermineModel extends Gdn_Model{
                 LogModel::insert($Log, 'Termin', $Termin);
             }
 		*/
-		Gdn::sql()->delete('FahrzeugTermine', array('TerminID' => val('TerminID', $options, 0)));
+		Gdn::sql()->delete('FahrzeugTermin', array('FahrzeugTerminID' => val('FahrzeugTerminID', $options, 0)));
 		$Sender->InformMessage('Termin gelöscht!');
         redirect($this->indexLink);
 			}

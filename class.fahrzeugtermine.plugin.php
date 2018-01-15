@@ -96,8 +96,8 @@ class FahrzeugTerminePlugin extends Gdn_Plugin {
      */
     public function structure() {
         Gdn::structure()
-            ->table('FahrzeugTermine');
-            ->primaryKey('TerminID')
+            ->table('FahrzeugTermin');
+            ->primaryKey('FahrzeugTerminID')
             ->column('Fahrzeug', 'varchar(140)')
             ->column('Titel', 'varchar(140)')
             ->column('Von', 'datetime')

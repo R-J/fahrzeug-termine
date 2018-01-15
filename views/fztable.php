@@ -84,7 +84,7 @@
 		  $user ="" ;
 			$Freischaltung = userAnchor(Gdn::userModel()->getID($Termin->Freischaltung), 'Username');
 	  }
-        echo  '<td>' . $Termin->TerminID . '</td>';
+        echo  '<td>' . $Termin->FahrzeugTerminID . '</td>';
 		echo  '<td>' . $Termin->Fahrzeug . '</td>';
 		echo  '<td>' . $Termin->Titel . '</td>';
 		echo  '<td>' . strftime(t('FahrzeugTermine.DateFormat', '%e.%m.%y %H:%M'), strtotime($Termin->Von )) . '</td>';
@@ -92,11 +92,11 @@
 		echo  '<td>' . userAnchor(Gdn::userModel()->getID($Termin->UserID), 'Username') . '</td>';
 		echo  '<td>' . $Freischaltung . '</td>';
 		echo  '<td>';
-		echo "<a class=\"Popup Button Action\" href=\"#termin_" . $Termin->TerminID . "\">Details</a>";
+		echo "<a class=\"Popup Button Action\" href=\"#termin_" . $Termin->FahrzeugTerminID . "\">Details</a>";
 		$user = Gdn::userModel()->getID($Termin->UserID);
 		?>
 		<dd>
-		 <div id="termin_<?php echo $Termin->TerminID ?>">
+		 <div id="termin_<?php echo $Termin->FahrzeugTerminID ?>">
 		<h2><?= htmlEsc($Termin->Titel) ?></h2>
         <div class="Item-Header DiscussionHeader">
           <div class="AuthorWrap">
@@ -130,7 +130,7 @@
       <div class="EventBody"></div>
       <div><?php
 		if (FahrzeugTermineModel::canApprove() and $Termin->Freischaltung == 0){
-        echo Anchor(t('Freigeben'), 'fahrzeug-termine/approve/'.$Termin->TerminID.'&tk='.$Session->TransientKey(), ['class' => 'Button Primary Action NewDiscussion']);
+        echo Anchor(t('Freigeben'), 'fahrzeug-termine/approve/'.$Termin->FahrzeugTerminID.'&tk='.$Session->TransientKey(), ['class' => 'Button Primary Action NewDiscussion']);
 		}
 		elseif($Termin->Freischaltung != 0){
 			echo "Eintrag wurde Freigegeben und kann nicht mehr bearbeitet werden.";
@@ -142,11 +142,11 @@
 		</dd>
 		<?php
 		if (FahrzeugTermineModel::canEdit($Termin)) {
-		echo Anchor(t('Edit'),'fahrzeug-termine/edit/'.$Termin->TerminID.'/'.$Session->TransientKey(),['class' => 'Button SmallButton  Edit']). " " ;
+		echo Anchor(t('Edit'),'fahrzeug-termine/edit/'.$Termin->FahrzeugTerminID.'/'.$Session->TransientKey(),['class' => 'Button SmallButton  Edit']). " " ;
 		}
 
         if (FahrzeugTermineModel::canDelete($Termin)) {
-        echo Anchor(t('Delete'), 'fahrzeug-termine/delete/'.$Termin->TerminID.'&tk='.$Session->TransientKey(), ['class' => 'Button SmallButton Cancel PopConfirm']);
+        echo Anchor(t('Delete'), 'fahrzeug-termine/delete/'.$Termin->FahrzeugTerminID.'&tk='.$Session->TransientKey(), ['class' => 'Button SmallButton Cancel PopConfirm']);
 		}
         echo '</td></tr>';
 		}
