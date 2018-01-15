@@ -9,7 +9,7 @@ $PluginInfo['FahrzeugTermine'] = array(
 	'License'=>"GNU GPL2",
     'Author' => "Tim Knigge, FFRBG" 
 );
-class FahrzeugTermine_Plugin extends Gdn_Plugin {
+class FahrzeugTerminePlugin extends Gdn_Plugin {
 
     public function Base_Render_Before($Sender) {
         $Session = Gdn::Session();
